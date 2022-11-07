@@ -1,13 +1,18 @@
-function x = diagonal(ciA,vicA)
-%function which works as diag(A) but A is represented as in our problem
+function [vicA,x] = diagonal(ciA,vicA)
+%function which works similar to diag(A) but also returns A with zeros on diag
+% A is represented as in our problem
 n=size(ciA,1);
 for i=1:n
-ciA(i,:)=(ciA(i,:)==i);
+    ciA(i,:)=(ciA(i,:)==i);
 end
-ciA
 [row,col]=find(ciA);
-col
-x=vicA(col);
-
+rc = sortrows([row(:), col(:)]);
+row = rc(:,1);
+col = rc(:,2);
+x=zeros(n,1);
+for i=1:n
+    x(i)=vicA(row(i),col(i));
+    vicA(row(i),col(i))=0;
+end
 end
 

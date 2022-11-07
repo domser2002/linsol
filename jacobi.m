@@ -8,17 +8,20 @@ function x = jacobi(A,b)
 kmax=500; % max number of iterations in loop
 tol=1e-9; % satisfying tolerance of error
 %initial values:
-err=Inf; 
+err=1; 
 n=size(A,1);
 x=zeros(n,1);
 k=1;
+d=diag(A);
+for i=1:n
+    A(i,i)=0;
+end
 while err >= tol && k<=kmax
+   % x
     prev=x;
-    first=A*prev;
-    second=diag(A).*prev;
-    bracket=b-(first-second);
-    x = bracket./diag(A); % formula from lecture
-    err=norm(b-A*x,1);
+    x=(b-A*prev)./d;
+    %dbstop if naninf
+    err=norm(x-prev,1);
     k = k + 1;
 end
 end
